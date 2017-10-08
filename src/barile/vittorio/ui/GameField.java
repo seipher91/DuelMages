@@ -12,6 +12,8 @@ import java.awt.geom.AffineTransform;
 import static barile.vittorio.engine.Spell.SPELL_DRAW;
 import static barile.vittorio.engine.Spell.SPELL_LOSE;
 import static barile.vittorio.engine.Spell.SPELL_WIN;
+import static barile.vittorio.ui.Hud.PLAYER_1;
+import static barile.vittorio.ui.Hud.PLAYER_2;
 
 public class GameField extends JPanel implements OnSpellListener {
     private MagePlayer mage_1, mage_2;
@@ -84,18 +86,16 @@ public class GameField extends JPanel implements OnSpellListener {
                 break;
             case SPELL_WIN:
                 mage_2.obtainDamage(attack.getPower());
+
+                hud.addDamage(PLAYER_2, attack.getPower());
                 break;
             case SPELL_LOSE:
                 mage_1.obtainDamage(defense.getPower());
+
+                hud.addDamage(PLAYER_1, defense.getPower());
                 break;
         }
 
-
-        //mage_1.setStatus(MagePlayer.STATUS_IDLE);
-        //mage_2.setStatus(MagePlayer.STATUS_IDLE);
-
-        System.out.println(mage_1.getName()+":"+mage_1.getLifePoints()+" attack with "+attack.getType());
-        System.out.println(mage_2.getName()+":"+mage_2.getLifePoints()+" defense with "+defense.getType());
     }
 
     public class Engine implements Runnable {
