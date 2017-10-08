@@ -3,12 +3,17 @@ package barile.vittorio.entites;
 import barile.vittorio.engine.Spell;
 import barile.vittorio.interfaces.IntellectualAbilities;
 import barile.vittorio.interfaces.Vitality;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Mage implements Vitality, IntellectualAbilities {
+    @Getter @Setter
     private String name;
+
+    @Getter @Setter
     private String accademic_class;
 
     private int life_points;
@@ -61,20 +66,6 @@ public class Mage implements Vitality, IntellectualAbilities {
     @Override
     public void obtainHeal(int heal) {
         this.life_points += heal;
-    }
-
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAccademic_class() {
-        return accademic_class;
-    }
-    public void setAccademic_class(String accademic_class) {
-        this.accademic_class = accademic_class;
     }
 
 }

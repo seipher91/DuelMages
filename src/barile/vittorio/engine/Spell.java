@@ -1,12 +1,19 @@
 package barile.vittorio.engine;
 
+import lombok.Builder;
+import lombok.Getter;
+
+@Builder
 public class Spell {
     public static final String FIRE_TYPE = "Fire";
     public static final String FROST_TYPE = "Frost";
     public static final String ARCANE_TYPE = "Arcane";
 
+    @Getter
     private String name;
+    @Getter
     private String type;
+    @Getter
     private int power;
 
     public Spell(String name, String type, int power) {
@@ -68,38 +75,5 @@ public class Spell {
 
         return result;
     }
-
-    public static Builder builder() {
-        return new Builder();
-    }
-
-    public static class Builder {
-        private String name;
-        private String type;
-        private int power;
-
-        public Builder() {}
-
-        public Builder name(String name) {
-            this.name = name;
-            return this;
-        }
-
-        public Builder type(String type) {
-            this.type = type;
-            return this;
-        }
-
-        public Builder power(int power) {
-            this.power = power;
-            return this;
-        }
-
-        public Spell build() {
-            return new Spell(name, type, power);
-        }
-
-    }
-
 
 }

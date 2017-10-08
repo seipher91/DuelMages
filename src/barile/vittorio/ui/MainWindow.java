@@ -16,7 +16,7 @@ public class MainWindow extends JFrame {
 
         this.setSize(LARGHEZZA, ALTEZZA);
         this.setResizable(false);
-        this.setAlwaysOnTop(true);
+        //this.setAlwaysOnTop(true);
 
         this.setLayout(null);
         this.setLocationRelativeTo(null);

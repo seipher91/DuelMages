@@ -30,6 +30,9 @@ public class ChoicePanel extends JPanel implements ActionListener {
         fire.setLocation(16, 10);
         fire.addActionListener(this);
         fire.setActionCommand("fire");
+        fire.setIcon(new ImageIcon(""));
+
+
 
 
         JButton frost = new JButton("Frost");

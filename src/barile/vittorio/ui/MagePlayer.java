@@ -1,0 +1,154 @@
+package barile.vittorio.ui;
+
+import barile.vittorio.entites.Mage;
+import barile.vittorio.utils.Resources;
+import lombok.Setter;
+import lombok.experimental.Delegate;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+
+/**
+ * Created by Vittorio on 08/10/2017.
+ */
+public class MagePlayer extends JPanel {
+    public static final int STATUS_IDLE = 0;
+    public static final int STATUS_CHARGE = 1;
+    public static final int STATUS_ATTACK = 2;
+    public static final int STATUS_DAMAGED = 3;
+    public static final int STATUS_WIN = 4;
+    public static final int STATUS_LOSE = 5;
+
+    private final int sprite_w = 72;
+    private final int sprite_h = 72;
+
+    @Delegate
+    private Mage mage;
+    private boolean is_enemy;
+
+    private final BufferedImage img;
+
+    private int status;
+    private int current_moment;
+
+    public MagePlayer(String name, String accademic_class, String resource_path) {
+        super();
+        setBackground(null);
+        setOpaque(false);
+        setSize(400, 400);
+
+        this.img = Resources.getImage(resource_path);
+
+        this.mage = new Mage(name, accademic_class);
+        this.is_enemy = false;
+
+        this.status = STATUS_IDLE;
+        this.current_moment = 0;
+    }
+
+    public void setAsEnemy() {
+        this.is_enemy = true;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+        current_moment = 0;
+    }
+
+    private void updateStatus() {
+        current_moment++;
+    }
+
+    private BufferedImage getBody() {
+        int x = 0,
+            y = 0,
+            w = sprite_w,
+            h = sprite_h;
+        int result = 0;
+        int offscan = 0;
+
+        switch (status) {
+            default:
+            case STATUS_IDLE:
+                result = current_moment % 3;
+
+                offscan = w+4;
+                x = 48 + (offscan*result);
+                y = 14;
+                break;
+            case STATUS_CHARGE:
+                break;
+            case STATUS_ATTACK:
+                result = current_moment % 3;
+
+                switch (result) {
+                    case 0:
+                        offscan = 0;
+                        break;
+                    case 1:
+                        offscan = w-3;
+                        break;
+                    case 2:
+                        offscan = w;
+                        w = w*2;
+                        status = STATUS_IDLE;
+                        break;
+                }
+
+                x = 420 + (offscan * result);
+                y = 95;
+                break;
+            case STATUS_DAMAGED:
+                break;
+            case STATUS_WIN:
+                break;
+            case STATUS_LOSE:
+                break;
+        }
+
+        return this.img.getSubimage(x, y, w, h);
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        BufferedImage pg = getBody();
+
+        /*
+        if(is_enemy) {
+            AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
+            tx.translate(-pg.getWidth(null), 0);
+            AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+            pg = op.filter(pg, null);
+        }
+        */
+
+        int x = 0;
+        int y = 0;
+
+        int width = getWidth();
+        int height = getHeight();
+
+
+        width = 130;
+        height = 130;
+
+        if(pg.getWidth() != sprite_w) {
+            width = (height * pg.getWidth()) / sprite_h;
+        }
+        if(pg.getHeight() != sprite_h) {
+            height = (width * pg.getHeight()) / sprite_w;
+        }
+
+        g.drawImage(pg,
+            x, y,
+            width, height,
+            this);
+
+        updateStatus();
+    }
+
+}

@@ -3,33 +3,75 @@ package barile.vittorio.ui;
 import barile.vittorio.engine.Spell;
 import barile.vittorio.entites.Mage;
 import barile.vittorio.ui.interfaces.OnSpellListener;
+import barile.vittorio.utils.Resources;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 
 import static barile.vittorio.engine.Spell.SPELL_DRAW;
 import static barile.vittorio.engine.Spell.SPELL_LOSE;
 import static barile.vittorio.engine.Spell.SPELL_WIN;
 
 public class GameField extends JPanel implements OnSpellListener {
-    private Mage mage_1, mage_2;
+    private MagePlayer mage_1, mage_2;
+    private Hud hud;
 
     public GameField() {
         setSize(MainWindow.LARGHEZZA, 400);
         setLocation(0, 0);
+        setLayout(null);
 
         init();
     }
 
     private void init() {
-        setBackground(new Color(61,205,66));
+        mage_1 = new MagePlayer("Paladino", "Alleanza", "assets/images/mage_bronze.png");
+        mage_2 = new MagePlayer("Shamano", "Orda", "assets/images/mage_green.png") {
+            protected Graphics getComponentGraphics(final Graphics g) {
+                return horizontalFlip(super.getComponentGraphics(g), getWidth());
+            }
+        };
 
-        mage_1 = new Mage("Paladino", "Alleanza");
-        mage_2 = new Mage("Shamano", "Orda");
+        mage_2.setAsEnemy();
+
+        add(mage_1);
+        mage_1.setLocation(150, 230);
+
+        add(mage_2);
+        mage_2.setLocation(250, 230);
+
+        hud = new Hud();
+        add(hud);
+
+        Background background = new Background(MainWindow.LARGHEZZA, 400);
+        add(background);
+
+        Thread engine = new Thread(new Engine());
+        engine.start();
+    }
+
+    private static Graphics horizontalFlip(final Graphics g, final int width) {
+        final Graphics2D g2d = (Graphics2D) g;
+        final AffineTransform tx = g2d.getTransform();
+        tx.scale(-1.0, 1.0);
+        tx.translate(-width, 0);
+        g2d.setTransform(tx);
+        return g2d;
+    }
+
+    private synchronized void updateEnvironment() {
+        //mage_1.repaint();
+        //mage_2.repaint();
+
+        repaint();
     }
 
     @Override
     public void onSpellCast(Spell spell) {
+        mage_1.setStatus(MagePlayer.STATUS_ATTACK);
+        mage_2.setStatus(MagePlayer.STATUS_ATTACK);
+
         Spell attack = mage_1.execAttack(spell);
 
         Spell defense = mage_2.execAttack(
@@ -48,11 +90,49 @@ public class GameField extends JPanel implements OnSpellListener {
                 break;
         }
 
-        //mage_2.obtainDamage(attack.getPower());
 
+        //mage_1.setStatus(MagePlayer.STATUS_IDLE);
+        //mage_2.setStatus(MagePlayer.STATUS_IDLE);
 
         System.out.println(mage_1.getName()+":"+mage_1.getLifePoints()+" attack with "+attack.getType());
         System.out.println(mage_2.getName()+":"+mage_2.getLifePoints()+" defense with "+defense.getType());
+    }
+
+    public class Engine implements Runnable {
+        public void run() {
+            while (true) {
+                updateEnvironment();
+
+                try {
+                    // thread to sleep for 1000 milliseconds
+                    Thread.sleep(250);
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            }
+        }
+    }
+
+    private class Background extends JPanel {
+        private final Image img;
+
+        public Background(int width, int height) {
+            super();
+            this.setBackground(null);
+            this.setSize(width, height);
+            this.setLocation(0,0);
+
+            this.img = Resources.getImage("assets/images/environment_sunset.gif");
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.drawImage(this.img,
+                    0, 0,
+                    getWidth(), getHeight(),
+                    this);
+        }
     }
 
 }
