@@ -102,6 +102,23 @@ public class MagePlayer extends JPanel {
                 y = 95;
                 break;
             case STATUS_DAMAGED:
+                result = current_moment % 3;
+
+                switch (result) {
+                    case 0:
+                        offscan = w - 40;
+                        break;
+                    case 1:
+                        offscan = w - 60;
+                        break;
+                    case 2:
+                        offscan = w - 40;
+                        status = STATUS_IDLE;
+                        break;
+                }
+
+                x = 0 + (offscan * result);
+                y = 375;
                 break;
             case STATUS_WIN:
                 break;

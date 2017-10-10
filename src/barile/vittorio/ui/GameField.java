@@ -88,11 +88,13 @@ public class GameField extends JPanel implements OnSpellListener {
                 mage_2.obtainDamage(attack.getPower());
 
                 hud.addDamage(PLAYER_2, attack.getPower());
+                mage_2.setStatus(MagePlayer.STATUS_DAMAGED);
                 break;
             case SPELL_LOSE:
                 mage_1.obtainDamage(defense.getPower());
 
                 hud.addDamage(PLAYER_1, defense.getPower());
+                mage_1.setStatus(MagePlayer.STATUS_DAMAGED);
                 break;
         }
 
@@ -104,7 +106,7 @@ public class GameField extends JPanel implements OnSpellListener {
                 updateEnvironment();
 
                 try {
-                    // thread to sleep for 1000 milliseconds
+                    // thread to sleep for 250 milliseconds
                     Thread.sleep(250);
                 } catch (Exception e) {
                     System.out.println(e);

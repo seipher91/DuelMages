@@ -25,27 +25,28 @@ public class ChoicePanel extends JPanel implements ActionListener {
     private void init() {
         setBackground(new Color(96,71,35));
 
-        JButton fire = new JButton("Fire");
-        fire.setSize(240, 150);
-        fire.setLocation(16, 10);
+        JButton fire = new JButton();
+        fire.setSize(64, 63);
+        fire.setLocation(152, 50);
         fire.addActionListener(this);
         fire.setActionCommand("fire");
-        fire.setIcon(new ImageIcon(""));
+        fire.setIcon(new ImageIcon("assets/images/fireball.jpg"));
 
 
 
-
-        JButton frost = new JButton("Frost");
-        frost.setSize(240, 150);
-        frost.setLocation(276, 10);
+        JButton frost = new JButton();
+        frost.setSize(64, 63);
+        frost.setLocation(368, 50);
         frost.addActionListener(this);
         frost.setActionCommand("frost");
+        frost.setIcon(new ImageIcon("assets/images/frostbolt.jpg"));
 
-        JButton arcane = new JButton("Arcane");
-        arcane.setSize(240, 150);
-        arcane.setLocation(536, 10);
+        JButton arcane = new JButton();
+        arcane.setSize(64, 63);
+        arcane.setLocation(554, 50);
         arcane.addActionListener(this);
         arcane.setActionCommand("arcane");
+        arcane.setIcon(new ImageIcon("assets/images/arcaneblast.jpg"));
 
         add(fire);
         add(frost);
