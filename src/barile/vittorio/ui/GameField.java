@@ -98,6 +98,14 @@ public class GameField extends JPanel implements OnSpellListener {
                 break;
         }
 
+        if (mage_1.getLifePoints() <= 0) {
+            mage_2.setStatus(MagePlayer.STATUS_WIN);
+            mage_1.setStatus(MagePlayer.STATUS_LOSE);
+        }
+        if (mage_2.getLifePoints() <=0) {
+            mage_1.setStatus(MagePlayer.STATUS_WIN);
+            mage_2.setStatus(MagePlayer.STATUS_LOSE);
+        }
     }
 
     public class Engine implements Runnable {

@@ -121,8 +121,16 @@ public class MagePlayer extends JPanel {
                 y = 375;
                 break;
             case STATUS_WIN:
+                result = current_moment % 7;
+
+                x = 540 + (w * result);
+                y = 245;
                 break;
             case STATUS_LOSE:
+                result = current_moment % 6;
+
+                x = 30 + (w * result);
+                y = 280;
                 break;
         }
 

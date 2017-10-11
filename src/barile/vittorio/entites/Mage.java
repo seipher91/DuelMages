@@ -10,10 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Mage implements Vitality, IntellectualAbilities {
-    @Getter @Setter
+    @Getter
+    @Setter
     private String name;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String accademic_class;
 
     private int life_points;
@@ -31,8 +33,8 @@ public class Mage implements Vitality, IntellectualAbilities {
     public List<String> getAbilitiesType() {
         List<String> types = new ArrayList<>();
 
-        for(Spell spell : getAbilities()) {
-            if(types.contains(spell.getType())) continue;
+        for (Spell spell : getAbilities()) {
+            if (types.contains(spell.getType())) continue;
             types.add(spell.getType());
         }
 
