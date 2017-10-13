@@ -106,13 +106,13 @@ public class MagePlayer extends JPanel {
 
                 switch (result) {
                     case 0:
-                        offscan = w - 40;
+                        offscan = w;
                         break;
                     case 1:
-                        offscan = w - 60;
+                        offscan = w;
                         break;
                     case 2:
-                        offscan = w - 40;
+                        offscan = w - 10;
                         status = STATUS_IDLE;
                         break;
                 }
@@ -122,15 +122,30 @@ public class MagePlayer extends JPanel {
                 break;
             case STATUS_WIN:
                 result = current_moment % 7;
-
-                x = 540 + (w * result);
-                y = 245;
+                offscan = w - 5;
+                x = 540 + (offscan * result);
+                y = 250;
                 break;
             case STATUS_LOSE:
-                result = current_moment % 6;
+                result = current_moment % 4;
 
-                x = 30 + (w * result);
-                y = 280;
+                switch (result) {
+                    case 0:
+                        offscan = w;
+                        break;
+                    case 1:
+                        offscan = w + 5;
+                        break;
+                    case 2:
+                        offscan = w + 20;
+                        break;
+                    case 3:
+                        offscan = w - 30;
+                        break;
+                }
+
+                x = 730 + (offscan * result);
+                y = 550;
                 break;
         }
 

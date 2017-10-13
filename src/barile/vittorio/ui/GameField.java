@@ -4,10 +4,14 @@ import barile.vittorio.engine.Spell;
 import barile.vittorio.entites.Mage;
 import barile.vittorio.ui.interfaces.OnSpellListener;
 import barile.vittorio.utils.Resources;
+import barile.vittorio.utils.Sound;
+import barile.vittorio.utils.SoundException;
 
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.net.MalformedURLException;
 
 import static barile.vittorio.engine.Spell.SPELL_DRAW;
 import static barile.vittorio.engine.Spell.SPELL_LOSE;
@@ -28,8 +32,8 @@ public class GameField extends JPanel implements OnSpellListener {
     }
 
     private void init() {
-        mage_1 = new MagePlayer("Paladino", "Alleanza", "assets/images/mage_bronze.png");
-        mage_2 = new MagePlayer("Shamano", "Orda", "assets/images/mage_green.png") {
+        mage_1 = new MagePlayer("Paladino", "Alleanza", "assets/images/mage_bronze_mod.png");
+        mage_2 = new MagePlayer("Shamano", "Orda", "assets/images/mage_green_mod.png") {
             protected Graphics getComponentGraphics(final Graphics g) {
                 return horizontalFlip(super.getComponentGraphics(g), getWidth());
             }

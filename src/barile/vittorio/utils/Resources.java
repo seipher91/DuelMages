@@ -16,7 +16,7 @@ import javax.imageio.ImageIO;
  * fornisce diversi metodi per leggere, estrarre o riprodurre immagini, suoni o
  * testo
  *
- * @author Oneiros
+ * @author Vittorio Barile
  */
 public class Resources {
 
