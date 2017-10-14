@@ -6,7 +6,7 @@ import java.awt.*;
 public class MainWindow extends JFrame {
     public static final String NOME_GIOCO = "Duello tra maghi";
     public static final int LARGHEZZA = 800;
-    public static final int ALTEZZA = 600;
+    public static final int ALTEZZA = 780;
 
     private ChoicePanel choicePanel;
     private GameField gameField;

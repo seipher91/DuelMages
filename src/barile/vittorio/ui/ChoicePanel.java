@@ -2,18 +2,20 @@ package barile.vittorio.ui;
 
 import barile.vittorio.engine.Spell;
 import barile.vittorio.ui.interfaces.OnSpellListener;
+import barile.vittorio.utils.Resources;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.AffineTransform;
 
 public class ChoicePanel extends JPanel implements ActionListener {
-
+    private Background background;
     private OnSpellListener listener;
 
     public ChoicePanel(OnSpellListener listener) {
-        setSize(MainWindow.LARGHEZZA, 200);
+        setSize(MainWindow.LARGHEZZA, 380);
         setLocation(0, 400);
 
         this.listener = listener;
@@ -23,35 +25,34 @@ public class ChoicePanel extends JPanel implements ActionListener {
     }
 
     private void init() {
-        setBackground(new Color(96,71,35));
+        //setBackground(new Color(96,71,35));
+        background = new Background(getWidth(), 500);
+        background.setLocation(0, -130);
 
-        JButton fire = new JButton();
-        fire.setSize(64, 63);
-        fire.setLocation(152, 50);
+
+        CardButton fire = new CardButton(145, 220, "Fireball", "assets/images/fireball.jpg");
+        fire.setLocation(90, 65);
         fire.addActionListener(this);
         fire.setActionCommand("fire");
-        fire.setIcon(new ImageIcon("assets/images/fireball.jpg"));
 
 
-
-        JButton frost = new JButton();
-        frost.setSize(64, 63);
-        frost.setLocation(368, 50);
+        CardButton frost = new CardButton(145, 220, "Frostbolt", "assets/images/frostbolt.jpg");
+        frost.setLocation(245, 65);
         frost.addActionListener(this);
         frost.setActionCommand("frost");
-        frost.setIcon(new ImageIcon("assets/images/frostbolt.jpg"));
 
-        JButton arcane = new JButton();
-        arcane.setSize(64, 63);
-        arcane.setLocation(554, 50);
+
+        CardButton arcane = new CardButton(145, 220, "Arcane Blast", "assets/images/arcaneblast.jpg");
+        arcane.setLocation(395, 65);
         arcane.addActionListener(this);
         arcane.setActionCommand("arcane");
-        arcane.setIcon(new ImageIcon("assets/images/arcaneblast.jpg"));
+
 
         add(fire);
         add(frost);
         add(arcane);
 
+        add(background);
     }
 
     @Override
@@ -84,4 +85,41 @@ public class ChoicePanel extends JPanel implements ActionListener {
         }
     }
 
+    private class Background extends JPanel {
+        private final Image img;
+
+        public Background(int width, int height) {
+            super();
+            this.setBackground(null);
+            this.setSize(width, height);
+            this.setLocation(0,0);
+
+            this.img = Resources.getImage("assets/images/action_bar.jpg");
+        }
+
+        @Override
+        protected Graphics getComponentGraphics(Graphics g) {
+            //return super.getComponentGraphics(g);
+            return verticalFlip(super.getComponentGraphics(g), getHeight());
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.drawImage(this.img,
+                    0, 0,
+                    getWidth(), getHeight(),
+                    this);
+        }
+
+        private Graphics verticalFlip(final Graphics g, final int height) {
+            final Graphics2D g2d = (Graphics2D) g;
+            final AffineTransform tx = g2d.getTransform();
+            tx.scale(1.0, -1.0);
+            tx.translate(0, -height);
+            g2d.setTransform(tx);
+            return g2d;
+        }
+
+    }
 }
