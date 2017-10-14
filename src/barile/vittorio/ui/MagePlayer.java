@@ -1,6 +1,7 @@
 package barile.vittorio.ui;
 
 import barile.vittorio.entites.Mage;
+import barile.vittorio.ui.interfaces.OnVitalityEventListener;
 import barile.vittorio.utils.Resources;
 import lombok.Setter;
 import lombok.experimental.Delegate;
@@ -34,7 +35,7 @@ public class MagePlayer extends JPanel {
     private int status;
     private int current_moment;
 
-    public MagePlayer(String name, String accademic_class, String resource_path) {
+    public MagePlayer(String name, String accademic_class, String resource_path, OnVitalityEventListener listener) {
         super();
         setBackground(null);
         setOpaque(false);
@@ -42,7 +43,7 @@ public class MagePlayer extends JPanel {
 
         this.img = Resources.getImage(resource_path);
 
-        this.mage = new Mage(name, accademic_class);
+        this.mage = new Mage(name, accademic_class, listener);
         this.is_enemy = false;
 
         this.status = STATUS_IDLE;

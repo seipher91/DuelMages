@@ -3,7 +3,10 @@ package barile.vittorio.entites;
 import barile.vittorio.engine.Spell;
 import barile.vittorio.interfaces.IntellectualAbilities;
 import barile.vittorio.interfaces.Vitality;
+import barile.vittorio.ui.interfaces.OnVitalityEventListener;
+import com.sun.istack.internal.Nullable;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 import java.util.ArrayList;
@@ -20,13 +23,15 @@ public class Mage implements Vitality, IntellectualAbilities {
 
     private int life_points;
     private List<Spell> abilities;
+    private OnVitalityEventListener listener;
 
-    public Mage(String name, String accademic_class) {
+    public Mage(String name, String accademic_class, @Nullable OnVitalityEventListener listener) {
         this.name = name;
         this.accademic_class = accademic_class;
 
         this.abilities = new ArrayList<>();
         this.life_points = 100;
+        this.listener = listener;
     }
 
     @Override
@@ -63,6 +68,12 @@ public class Mage implements Vitality, IntellectualAbilities {
     @Override
     public void obtainDamage(int damage) {
         this.life_points -= damage;
+        if (this.life_points <= 0){
+            this.life_points = 0;
+
+            if(this.listener!=null)
+                this.listener.onDeath(this.name);
+        }
     }
 
     @Override

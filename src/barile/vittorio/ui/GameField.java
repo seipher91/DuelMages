@@ -3,6 +3,7 @@ package barile.vittorio.ui;
 import barile.vittorio.engine.Spell;
 import barile.vittorio.entites.Mage;
 import barile.vittorio.ui.interfaces.OnSpellListener;
+import barile.vittorio.ui.interfaces.OnVitalityEventListener;
 import barile.vittorio.utils.Resources;
 import barile.vittorio.utils.Sound;
 import barile.vittorio.utils.SoundException;
@@ -19,7 +20,7 @@ import static barile.vittorio.engine.Spell.SPELL_WIN;
 import static barile.vittorio.ui.Hud.PLAYER_1;
 import static barile.vittorio.ui.Hud.PLAYER_2;
 
-public class GameField extends JPanel implements OnSpellListener {
+public class GameField extends JPanel implements OnSpellListener, OnVitalityEventListener {
     private MagePlayer mage_1, mage_2;
     private Hud hud;
 
@@ -32,8 +33,14 @@ public class GameField extends JPanel implements OnSpellListener {
     }
 
     private void init() {
-        mage_1 = new MagePlayer("Paladino", "Alleanza", "assets/images/mage_bronze_mod.png");
-        mage_2 = new MagePlayer("Shamano", "Orda", "assets/images/mage_green_mod.png") {
+        mage_1 = new MagePlayer("Paladino",
+                "Alleanza",
+                "assets/images/mage_bronze_mod.png",
+                this);
+        mage_2 = new MagePlayer("Shamano",
+                "Orda",
+                "assets/images/mage_green_mod.png",
+                this) {
             protected Graphics getComponentGraphics(final Graphics g) {
                 return horizontalFlip(super.getComponentGraphics(g), getWidth());
             }
@@ -101,15 +108,11 @@ public class GameField extends JPanel implements OnSpellListener {
                 mage_1.setStatus(MagePlayer.STATUS_DAMAGED);
                 break;
         }
+    }
 
-        if (mage_1.getLifePoints() <= 0) {
-            mage_2.setStatus(MagePlayer.STATUS_WIN);
-            mage_1.setStatus(MagePlayer.STATUS_LOSE);
-        }
-        if (mage_2.getLifePoints() <=0) {
-            mage_1.setStatus(MagePlayer.STATUS_WIN);
-            mage_2.setStatus(MagePlayer.STATUS_LOSE);
-        }
+    @Override
+    public void onDeath(String name) {
+        System.out.println(name+" e' morto!");
     }
 
     public class Engine implements Runnable {
