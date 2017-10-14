@@ -30,19 +30,22 @@ public class ChoicePanel extends JPanel implements ActionListener {
         background.setLocation(0, -130);
 
 
-        CardButton fire = new CardButton(145, 220, "Fireball", "assets/images/fireball.jpg");
+        CardButton fire = new CardButton(145, 220,
+                "Fireball", "assets/images/fireball.jpg");
         fire.setLocation(90, 65);
         fire.addActionListener(this);
         fire.setActionCommand("fire");
 
 
-        CardButton frost = new CardButton(145, 220, "Frostbolt", "assets/images/frostbolt.jpg");
+        CardButton frost = new CardButton(145, 220,
+                "Frostbolt", "assets/images/frostbolt.jpg");
         frost.setLocation(245, 65);
         frost.addActionListener(this);
         frost.setActionCommand("frost");
 
 
-        CardButton arcane = new CardButton(145, 220, "Arcane Blast", "assets/images/arcaneblast.jpg");
+        CardButton arcane = new CardButton(145, 220,
+                "Arcane Blast", "assets/images/arcaneblast.jpg");
         arcane.setLocation(395, 65);
         arcane.addActionListener(this);
         arcane.setActionCommand("arcane");
