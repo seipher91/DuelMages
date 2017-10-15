@@ -1,6 +1,7 @@
 package barile.vittorio.ui;
 
 import barile.vittorio.engine.Spell;
+import barile.vittorio.ui.interfaces.OnChoiceListener;
 import barile.vittorio.ui.interfaces.OnSpellListener;
 import barile.vittorio.utils.Resources;
 
@@ -10,9 +11,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 
-public class ChoicePanel extends JPanel implements ActionListener {
+public class ChoicePanel extends JPanel implements ActionListener, OnChoiceListener {
     private Background background;
     private OnSpellListener listener;
+
+    private boolean active;
 
     public ChoicePanel(OnSpellListener listener) {
         setSize(MainWindow.LARGHEZZA, 380);
@@ -20,6 +23,8 @@ public class ChoicePanel extends JPanel implements ActionListener {
 
         this.listener = listener;
         setLayout(null);
+
+        active = true;
 
         init();
     }
@@ -60,6 +65,7 @@ public class ChoicePanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
+        if(!active) return;
         String action = actionEvent.getActionCommand();
         if(this.listener == null) return;
 
@@ -86,6 +92,16 @@ public class ChoicePanel extends JPanel implements ActionListener {
 
                 break;
         }
+    }
+
+    @Override
+    public void grantChioce() {
+        active = true;
+    }
+
+    @Override
+    public void denyChioce() {
+        active = false;
     }
 
     private class Background extends JPanel {

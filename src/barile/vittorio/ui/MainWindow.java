@@ -28,6 +28,8 @@ public class MainWindow extends JFrame {
         gameField = new GameField();
         choicePanel = new ChoicePanel(gameField);
 
+        gameField.setChoice(choicePanel);
+
         add(gameField);
         add(choicePanel);
 

@@ -2,11 +2,13 @@ package barile.vittorio.ui;
 
 import barile.vittorio.engine.Spell;
 import barile.vittorio.entites.Mage;
+import barile.vittorio.ui.interfaces.OnChoiceListener;
 import barile.vittorio.ui.interfaces.OnSpellListener;
 import barile.vittorio.ui.interfaces.OnVitalityEventListener;
 import barile.vittorio.utils.Resources;
 import barile.vittorio.utils.Sound;
 import barile.vittorio.utils.SoundException;
+import lombok.Setter;
 
 import javax.sound.sampled.Clip;
 import javax.swing.*;
@@ -23,6 +25,9 @@ import static barile.vittorio.ui.Hud.PLAYER_2;
 public class GameField extends JPanel implements OnSpellListener, OnVitalityEventListener {
     private MagePlayer mage_1, mage_2;
     private Hud hud;
+
+    @Setter
+    private OnChoiceListener choice;
 
     public GameField() {
         setSize(MainWindow.LARGHEZZA, 400);
@@ -63,7 +68,7 @@ public class GameField extends JPanel implements OnSpellListener, OnVitalityEven
         Thread engine = new Thread(new Engine());
         engine.start();
 
-        //mage_1.addStatus(MagePlayer.STATUS_WIN);
+        choice.grantChioce();
     }
 
     private static Graphics horizontalFlip(final Graphics g, final int width) {
@@ -119,6 +124,8 @@ public class GameField extends JPanel implements OnSpellListener, OnVitalityEven
 
     @Override
     public void onDeath(String name) {
+        choice.denyChioce();
+
         if(mage_1.getName().equals(name)) {
             hud.setStatus(Hud.STATUS_GAME_OVER);
             mage_1.addStatus(MagePlayer.STATUS_LOSE);
