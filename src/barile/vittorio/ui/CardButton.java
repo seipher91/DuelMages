@@ -7,10 +7,11 @@ import java.awt.*;
 
 public class CardButton extends JButton {
     private String name;
+    private String function;
     private final Image shell;
     private final Image element;
 
-    public CardButton(int width, int height, String name, String element) {
+    public CardButton(int width, int height, String name, String element, String function) {
         super();
         this.setBackground(null);
         this.setContentAreaFilled(false);
@@ -25,12 +26,19 @@ public class CardButton extends JButton {
         this.element = Resources.getImage(element);
 
         this.name = name;
-        JLabel label = new JLabel(this.name, SwingConstants.CENTER);
-        label.setForeground(Color.white);
-        label.setSize(width, 60);
-        label.setLocation(0, 145);
+        JLabel label_name = new JLabel(this.name, SwingConstants.CENTER);
+        label_name.setForeground(Color.white);
+        label_name.setSize(width, 60);
+        label_name.setLocation(0, 85);
 
-        add(label);
+        this.function = function;
+        JLabel label_function = new JLabel(this.function, SwingConstants.CENTER);
+        label_function.setForeground(Color.white);
+        label_function.setSize(width, 60);
+        label_function.setLocation(0, 140);
+
+        add(label_name);
+        add(label_function);
     }
 
     @Override
