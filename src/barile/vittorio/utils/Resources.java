@@ -1,6 +1,8 @@
 package barile.vittorio.utils;
 
 
+import lombok.experimental.UtilityClass;
+
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URISyntaxException;
@@ -18,16 +20,12 @@ import javax.imageio.ImageIO;
  *
  * @author Vittorio Barile
  */
+
+@UtilityClass
 public class Resources {
 
     //La classe di riferimento dalla quale leggere le risorse
     static Class source = Resources.class;
-
-    /**
-     * Costruttore privato (Resources è una classe statica)
-     */
-    private Resources() {
-    }
 
     /**
      * Imposta la classe di riferimento dalla quale leggere le risorse. La

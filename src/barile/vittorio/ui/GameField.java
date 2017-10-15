@@ -1,30 +1,27 @@
 package barile.vittorio.ui;
 
 import barile.vittorio.engine.Spell;
-import barile.vittorio.entites.Mage;
 import barile.vittorio.ui.interfaces.OnChoiceListener;
 import barile.vittorio.ui.interfaces.OnSpellListener;
 import barile.vittorio.ui.interfaces.OnVitalityEventListener;
 import barile.vittorio.utils.Resources;
 import barile.vittorio.utils.Sound;
-import barile.vittorio.utils.SoundException;
 import lombok.Setter;
 
 import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.net.MalformedURLException;
 
-import static barile.vittorio.engine.Spell.SPELL_DRAW;
-import static barile.vittorio.engine.Spell.SPELL_LOSE;
-import static barile.vittorio.engine.Spell.SPELL_WIN;
+import static barile.vittorio.engine.Spell.*;
 import static barile.vittorio.ui.Hud.PLAYER_1;
 import static barile.vittorio.ui.Hud.PLAYER_2;
 
 public class GameField extends JPanel implements OnSpellListener, OnVitalityEventListener {
     private MagePlayer mage_1, mage_2;
     private Hud hud;
+
+    private Clip theme;
 
     @Setter
     private OnChoiceListener choice;
@@ -35,6 +32,7 @@ public class GameField extends JPanel implements OnSpellListener, OnVitalityEven
         setLayout(null);
 
         init();
+        start();
     }
 
     private void init() {
@@ -65,10 +63,18 @@ public class GameField extends JPanel implements OnSpellListener, OnVitalityEven
         Background background = new Background(MainWindow.LARGHEZZA, 400);
         add(background);
 
+        theme = Sound.getClip("assets/sounds/battle_theme.wav");
+    }
+
+    private void start() {
         Thread engine = new Thread(new Engine());
         engine.start();
 
-        choice.grantChioce();
+        if(choice != null) choice.grantChioce();
+
+        Sound.setVolume(theme, 40f);
+        theme.loop(Clip.LOOP_CONTINUOUSLY);
+        theme.start();
     }
 
     private static Graphics horizontalFlip(final Graphics g, final int width) {
@@ -93,6 +99,17 @@ public class GameField extends JPanel implements OnSpellListener, OnVitalityEven
         mage_2.addStatus(MagePlayer.STATUS_ATTACK);
 
         Spell attack = mage_1.execAttack(spell);
+        switch (attack.getType()) {
+            case FIRE_TYPE:
+                Sound.getClip("assets/sounds/fireball_sound.wav").start();
+                break;
+            case FROST_TYPE:
+                Sound.getClip("assets/sounds/frostbolt_sound.wav").start();
+                break;
+            case ARCANE_TYPE:
+                Sound.getClip("assets/sounds/arcane_blast_sound.wav").start();
+                break;
+        }
 
         Spell defense = mage_2.execAttack(
                 Spell.builder()
@@ -125,15 +142,20 @@ public class GameField extends JPanel implements OnSpellListener, OnVitalityEven
     @Override
     public void onDeath(String name) {
         choice.denyChioce();
+        theme.stop();
 
         if(mage_1.getName().equals(name)) {
             hud.setStatus(Hud.STATUS_GAME_OVER);
             mage_1.addStatus(MagePlayer.STATUS_LOSE);
             mage_2.addStatus(MagePlayer.STATUS_WIN);
+
+            Sound.getClip("assets/sounds/game_over_sound.wav").start();
         } else {
             hud.setStatus(Hud.STATUS_CHECK_MATE);
             mage_1.addStatus(MagePlayer.STATUS_WIN);
             mage_2.addStatus(MagePlayer.STATUS_LOSE);
+
+            Sound.getClip("assets/sounds/win_sound.wav").start();
         }
     }
 
