@@ -26,18 +26,6 @@ public class Spell {
         this(name, type, 0);
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public int getPower() {
-        return power;
-    }
-
     private static int randomWithRange(int min, int max) {
         int range = (max - min) + 1;
         return (int)(Math.random() * range) + min;

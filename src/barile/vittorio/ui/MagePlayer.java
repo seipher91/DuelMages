@@ -11,6 +11,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 /**
  * Created by Vittorio on 08/10/2017.
@@ -35,6 +36,8 @@ public class MagePlayer extends JPanel {
     private int status;
     private int current_moment;
 
+    private ArrayList<Integer> statuses;
+
     public MagePlayer(String name, String accademic_class, String resource_path, OnVitalityEventListener listener) {
         super();
         setBackground(null);
@@ -48,13 +51,29 @@ public class MagePlayer extends JPanel {
 
         this.status = STATUS_IDLE;
         this.current_moment = 0;
+
+        this.statuses = new ArrayList<>();
     }
 
     public void setAsEnemy() {
         this.is_enemy = true;
     }
 
-    public void setStatus(int status) {
+    public void addStatus(int status) {
+        this.statuses.add(status);
+        if(this.status == STATUS_IDLE) goNextStatus();
+    }
+
+    private void goNextStatus() {
+        int next_status = STATUS_IDLE;
+
+        if(!statuses.isEmpty())
+            next_status = this.statuses.remove(0);
+
+        setStatus(next_status);
+    }
+
+    private void setStatus(int status) {
         this.status = status;
         current_moment = 0;
     }
@@ -95,7 +114,7 @@ public class MagePlayer extends JPanel {
                     case 2:
                         offscan = w;
                         w = w*2;
-                        status = STATUS_IDLE;
+                        goNextStatus();
                         break;
                 }
 
@@ -111,12 +130,12 @@ public class MagePlayer extends JPanel {
                         offscan = 1;
                         break;
                     case 1:
-                        w = w;
-                        offscan = w-7;
+                        w = w-3;
+                        offscan = w-3;
                         break;
                     case 2:
-                        offscan = w-5;
-                        status = STATUS_IDLE;
+                        offscan = w-8;
+                        goNextStatus();
                         break;
                 }
 
@@ -144,6 +163,7 @@ public class MagePlayer extends JPanel {
                         break;
                     case 3:
                         offscan = w - 30;
+                        goNextStatus();
                         break;
                 }
 

@@ -82,8 +82,8 @@ public class GameField extends JPanel implements OnSpellListener, OnVitalityEven
 
     @Override
     public void onSpellCast(Spell spell) {
-        mage_1.setStatus(MagePlayer.STATUS_ATTACK);
-        mage_2.setStatus(MagePlayer.STATUS_ATTACK);
+        mage_1.addStatus(MagePlayer.STATUS_ATTACK);
+        mage_2.addStatus(MagePlayer.STATUS_ATTACK);
 
         Spell attack = mage_1.execAttack(spell);
 
@@ -94,25 +94,38 @@ public class GameField extends JPanel implements OnSpellListener, OnVitalityEven
 
         switch (attack.tryOffense(defense)) {
             case SPELL_DRAW:
+                hud.setStatus(Hud.STATUS_DRAW, attack.getType(), defense.getType());
                 break;
             case SPELL_WIN:
                 mage_2.obtainDamage(attack.getPower());
 
+                hud.setStatus(Hud.STATUS_WIN, attack.getType(), defense.getType());
                 hud.addDamage(PLAYER_2, attack.getPower());
-                mage_2.setStatus(MagePlayer.STATUS_DAMAGED);
+
+                mage_2.addStatus(MagePlayer.STATUS_DAMAGED);
                 break;
             case SPELL_LOSE:
                 mage_1.obtainDamage(defense.getPower());
 
+                hud.setStatus(Hud.STATUS_LOSE, attack.getType(), defense.getType());
                 hud.addDamage(PLAYER_1, defense.getPower());
-                mage_1.setStatus(MagePlayer.STATUS_DAMAGED);
+
+                mage_1.addStatus(MagePlayer.STATUS_DAMAGED);
                 break;
         }
     }
 
     @Override
     public void onDeath(String name) {
-        System.out.println(name+" e' morto!");
+        if(mage_1.getName().equals(name)) {
+            hud.setStatus(Hud.STATUS_GAME_OVER);
+            mage_1.addStatus(MagePlayer.STATUS_LOSE);
+            mage_2.addStatus(MagePlayer.STATUS_WIN);
+        } else {
+            hud.setStatus(Hud.STATUS_CHECK_MATE);
+            mage_1.addStatus(MagePlayer.STATUS_WIN);
+            mage_2.addStatus(MagePlayer.STATUS_LOSE);
+        }
     }
 
     public class Engine implements Runnable {
@@ -122,7 +135,7 @@ public class GameField extends JPanel implements OnSpellListener, OnVitalityEven
 
                 try {
                     // thread to sleep for 250 milliseconds
-                    Thread.sleep(250);
+                    Thread.sleep(200);
                 } catch (Exception e) {
                     System.out.println(e);
                 }
