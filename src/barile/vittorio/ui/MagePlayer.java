@@ -196,26 +196,21 @@ public class MagePlayer extends JPanel {
                 y = 250 + offscan_h;
                 break;
             case STATUS_LOSE:
-                result = current_moment % 4;
+                result = current_moment % 2;
 
                 switch (result) {
                     case 0:
-                        offscan_w = w;
+                        x = 395;
+                        y = 4;
                         break;
                     case 1:
-                        offscan_w = w + 5;
-                        break;
-                    case 2:
-                        offscan_w = w + 20;
-                        break;
-                    case 3:
-                        offscan_w = w - 30;
-                        goNextStatus();
+                        x = 76;
+                        y = 375;
                         break;
                 }
 
-                x = 730 + (offscan_w * result);
-                y = 550;
+                //x = 10 + (offscan_w * result);
+                //y = 375;
                 break;
         }
 
@@ -281,6 +276,17 @@ public class MagePlayer extends JPanel {
                 location = new Point(x, y);
                 break;
             case STATUS_LOSE:
+                result = current_moment % 2;
+
+                switch (result) {
+                    case 0:
+                        break;
+                    case 1:
+                        x = x + 10;
+                        break;
+                }
+
+                location = new Point(x, y);
                 break;
         }
 
