@@ -54,20 +54,18 @@ public class Sound {
         //FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
         //gainControl.setValue(20f * (float) Math.log10(volume));
 
-        if (clip.isControlSupported(FloatControl.Type.VOLUME)) {
+        if (clip.isControlSupported(FloatControl.Type.VOLUME))
             control = (FloatControl) clip.getControl(FloatControl.Type.VOLUME);
-        }
 
-        if (clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
+        if (clip.isControlSupported(FloatControl.Type.MASTER_GAIN))
             control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        }
 
         if(control == null) {
             System.out.println("Impossibile settare il volume!");
             return;
         }
 
-        volume = (65536f/100) * volume;
+        volume = (control.getMaximum()/100) * volume;
         control.setValue(volume);
     }
 
