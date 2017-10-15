@@ -40,7 +40,7 @@ public class MagePlayer extends JPanel {
 
     public MagePlayer(String name, String accademic_class, String resource_path, OnVitalityEventListener listener) {
         super();
-        setBackground(null);
+        //setBackground(Color.white);
         setOpaque(false);
         setSize(400, 400);
 
@@ -143,10 +143,50 @@ public class MagePlayer extends JPanel {
                 y = 375;
                 break;
             case STATUS_WIN:
-                result = current_moment % 7;
-                offscan = w - 5;
+                result = current_moment % 9;
+                int medium = result % 4;
+                int offscan_h = 0;
+                w = 70;
+                h = 150;
+
+                switch (result) {
+                    case 0:
+                        offscan = w - 5;
+                        break;
+                    case 1:
+                        offscan = w ;
+                        break;
+                    case 2:
+                        offscan = w ;
+                        break;
+                    case 3:
+                        offscan = w ;
+                        break;
+                    case 4:
+                        offscan = w ;
+                        break;
+                    case 5:
+                        offscan = w ;
+                        break;
+                    case 6:
+                        offscan = w ;
+                        break;
+                    case 7:
+                        offscan = w ;
+                        break;
+                    case 8:
+                        offscan = w ;
+                        break;
+                    case 9:
+                        offscan = w ;
+                        break;
+                    default:
+                        offscan = w - 5;
+                        break;
+                }
+
                 x = 540 + (offscan * result);
-                y = 250;
+                y = 250 + (offscan_h * medium);
                 break;
             case STATUS_LOSE:
                 result = current_moment % 4;

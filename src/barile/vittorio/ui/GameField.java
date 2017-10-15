@@ -62,6 +62,8 @@ public class GameField extends JPanel implements OnSpellListener, OnVitalityEven
 
         Thread engine = new Thread(new Engine());
         engine.start();
+
+        mage_1.addStatus(MagePlayer.STATUS_WIN);
     }
 
     private static Graphics horizontalFlip(final Graphics g, final int width) {
@@ -134,8 +136,8 @@ public class GameField extends JPanel implements OnSpellListener, OnVitalityEven
                 updateEnvironment();
 
                 try {
-                    // thread to sleep for 250 milliseconds
-                    Thread.sleep(200);
+                    // thread to sleep for 200 milliseconds
+                    Thread.sleep(1000);
                 } catch (Exception e) {
                     System.out.println(e);
                 }
