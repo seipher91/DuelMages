@@ -49,10 +49,10 @@ public class GameField extends JPanel implements OnSpellListener, OnVitalityEven
         mage_2.setAsEnemy();
 
         add(mage_1);
-        mage_1.setLocation(150, 230);
+        mage_1.setLocation(150, 0);
 
         add(mage_2);
-        mage_2.setLocation(250, 230);
+        mage_2.setLocation(250, 0);
 
         hud = new Hud();
         add(hud);
@@ -63,7 +63,7 @@ public class GameField extends JPanel implements OnSpellListener, OnVitalityEven
         Thread engine = new Thread(new Engine());
         engine.start();
 
-        mage_1.addStatus(MagePlayer.STATUS_WIN);
+        //mage_1.addStatus(MagePlayer.STATUS_WIN);
     }
 
     private static Graphics horizontalFlip(final Graphics g, final int width) {
@@ -137,7 +137,7 @@ public class GameField extends JPanel implements OnSpellListener, OnVitalityEven
 
                 try {
                     // thread to sleep for 200 milliseconds
-                    Thread.sleep(1000);
+                    Thread.sleep(220);
                 } catch (Exception e) {
                     System.out.println(e);
                 }
