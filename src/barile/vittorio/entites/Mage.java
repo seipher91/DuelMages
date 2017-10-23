@@ -56,7 +56,7 @@ public class Mage implements Vitality, IntellectualAbilities {
         return Spell.builder()
                 .name(spell.getName())
                 .type(spell.getType())
-                .power(25)
+                .power(spell.getPower())
                 .build();
     }
 

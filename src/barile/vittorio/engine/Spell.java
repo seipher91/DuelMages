@@ -3,6 +3,13 @@ package barile.vittorio.engine;
 import lombok.Builder;
 import lombok.Getter;
 
+/**
+ *
+ * @author Vittorio
+ *
+ * Classe per la creazione di magie in base al tipo, nome e potenza.
+ *
+ */
 @Builder
 public class Spell {
     public static final String FIRE_TYPE = "Fire";
@@ -16,10 +23,16 @@ public class Spell {
     @Getter
     private int power;
 
+    /**
+     * Costruttore di una magia
+     * @param name nome del mago
+     * @param type tipologia di magia: Fire, Frost, Arcane
+     * @param power potenza ddi danno della magia, un intero compreso tra 10 - 25
+     */
     public Spell(String name, String type, int power) {
         this.name = name;
         this.type = type;
-        this.power = power;
+        this.power = randomWithRange(10, 25);
     }
 
     public Spell(String name, String type) {
@@ -31,6 +44,10 @@ public class Spell {
         return (int)(Math.random() * range) + min;
     }
 
+    /**
+     * Metodo che permette di ottenere a caso una tipologia di magia
+     * @return valore intero a caso compreso tra 0 e 2
+     */
     public static String getRandomType() {
         int choice = randomWithRange(0, 2);
 

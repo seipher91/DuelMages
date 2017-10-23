@@ -1,6 +1,7 @@
 package barile.vittorio.ui;
 
 import barile.vittorio.engine.Spell;
+import barile.vittorio.entites.Mage;
 import barile.vittorio.ui.interfaces.OnChoiceListener;
 import barile.vittorio.ui.interfaces.OnSpellListener;
 import barile.vittorio.utils.Resources;
@@ -55,10 +56,18 @@ public class ChoicePanel extends JPanel implements ActionListener, OnChoiceListe
         arcane.addActionListener(this);
         arcane.setActionCommand("arcane");
 
+        CardButton resume = new CardButton(145, 220,
+                "Resume", "assets/images/heartstone.png", "Gioca di nuovo");
+        resume.setLocation(550, 65);
+        resume.addActionListener(this);
+        resume.setActionCommand("resume");
+        resume.setEnabled(false);
 
         add(fire);
         add(frost);
         add(arcane);
+
+        add(resume);
 
         add(background);
     }
@@ -89,8 +98,11 @@ public class ChoicePanel extends JPanel implements ActionListener, OnChoiceListe
                         Spell.builder()
                                 .type(Spell.ARCANE_TYPE)
                                 .build());
-
                 break;
+
+            case "resume":
+                //TO DO
+
         }
     }
 

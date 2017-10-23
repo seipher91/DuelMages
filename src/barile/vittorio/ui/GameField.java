@@ -165,7 +165,7 @@ public class GameField extends JPanel implements OnSpellListener, OnVitalityEven
                 updateEnvironment();
 
                 try {
-                    // thread to sleep for 200 milliseconds
+                    // thread to sleep for 220 milliseconds
                     Thread.sleep(220);
                 } catch (Exception e) {
                     System.out.println(e);
