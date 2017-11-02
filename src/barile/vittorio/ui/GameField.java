@@ -1,7 +1,9 @@
 package barile.vittorio.ui;
 
 import barile.vittorio.engine.Spell;
+import barile.vittorio.entites.Mage;
 import barile.vittorio.ui.interfaces.OnChoiceListener;
+import barile.vittorio.ui.interfaces.OnGameControlChange;
 import barile.vittorio.ui.interfaces.OnSpellListener;
 import barile.vittorio.ui.interfaces.OnVitalityEventListener;
 import barile.vittorio.utils.Resources;
@@ -17,11 +19,11 @@ import static barile.vittorio.engine.Spell.*;
 import static barile.vittorio.ui.Hud.PLAYER_1;
 import static barile.vittorio.ui.Hud.PLAYER_2;
 
-public class GameField extends JPanel implements OnSpellListener, OnVitalityEventListener {
+public class GameField extends JPanel implements OnSpellListener, OnVitalityEventListener, OnGameControlChange {
     private MagePlayer mage_1, mage_2;
     private Hud hud;
 
-    private Clip theme;
+    private Clip theme, end;
 
     @Setter
     private OnChoiceListener choice;
@@ -75,6 +77,26 @@ public class GameField extends JPanel implements OnSpellListener, OnVitalityEven
         Sound.setVolume(theme, 40f);
         theme.loop(Clip.LOOP_CONTINUOUSLY);
         theme.start();
+    }
+
+    @Override
+    public void reset() {
+        mage_1.obtainHeal(Mage.MAX_LIFE);
+        mage_2.obtainHeal(Mage.MAX_LIFE);
+
+        mage_1.restore();
+        mage_2.restore();
+
+        hud.restore();
+        choice.grantChioce();
+
+        if(end != null) end.stop();
+        if(!theme.isRunning()) theme.start();
+    }
+
+    @Override
+    public void pause() {
+
     }
 
     private static Graphics horizontalFlip(final Graphics g, final int width) {
@@ -149,14 +171,16 @@ public class GameField extends JPanel implements OnSpellListener, OnVitalityEven
             mage_1.addStatus(MagePlayer.STATUS_LOSE);
             mage_2.addStatus(MagePlayer.STATUS_WIN);
 
-            Sound.getClip("assets/sounds/game_over_sound.wav").start();
+            end = Sound.getClip("assets/sounds/game_over_sound.wav");
         } else {
             hud.setStatus(Hud.STATUS_CHECK_MATE);
             mage_1.addStatus(MagePlayer.STATUS_WIN);
             mage_2.addStatus(MagePlayer.STATUS_LOSE);
 
-            Sound.getClip("assets/sounds/win_sound.wav").start();
+            end = Sound.getClip("assets/sounds/win_sound.wav");
         }
+
+        if(end != null) end.start();
     }
 
     public class Engine implements Runnable {

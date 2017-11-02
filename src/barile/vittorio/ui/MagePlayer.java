@@ -60,6 +60,11 @@ public class MagePlayer extends JPanel {
         this.is_enemy = true;
     }
 
+    public void restore() {
+        this.statuses.clear();
+        this.status = STATUS_IDLE;
+    }
+
     public void addStatus(int status) {
         this.statuses.add(status);
         if(this.status == STATUS_IDLE) goNextStatus();

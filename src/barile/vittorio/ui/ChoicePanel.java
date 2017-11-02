@@ -3,6 +3,7 @@ package barile.vittorio.ui;
 import barile.vittorio.engine.Spell;
 import barile.vittorio.entites.Mage;
 import barile.vittorio.ui.interfaces.OnChoiceListener;
+import barile.vittorio.ui.interfaces.OnGameControlChange;
 import barile.vittorio.ui.interfaces.OnSpellListener;
 import barile.vittorio.utils.Resources;
 
@@ -15,14 +16,17 @@ import java.awt.geom.AffineTransform;
 public class ChoicePanel extends JPanel implements ActionListener, OnChoiceListener {
     private Background background;
     private OnSpellListener listener;
+    private OnGameControlChange gameControl;
 
     private boolean active;
 
-    public ChoicePanel(OnSpellListener listener) {
+    public ChoicePanel(OnSpellListener listener, OnGameControlChange gameControl) {
         setSize(MainWindow.LARGHEZZA, 380);
         setLocation(0, 400);
 
         this.listener = listener;
+        this.gameControl = gameControl;
+
         setLayout(null);
 
         active = true;
@@ -61,7 +65,6 @@ public class ChoicePanel extends JPanel implements ActionListener, OnChoiceListe
         resume.setLocation(550, 65);
         resume.addActionListener(this);
         resume.setActionCommand("resume");
-        resume.setEnabled(false);
 
         add(fire);
         add(frost);
@@ -74,9 +77,15 @@ public class ChoicePanel extends JPanel implements ActionListener, OnChoiceListe
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        if(!active) return;
         String action = actionEvent.getActionCommand();
         if(this.listener == null) return;
+
+        switch (action) {
+            case "fire":
+            case "frost":
+            case "arcane":
+                if (!active) return;
+        }
 
         switch (action) {
             case "fire":
@@ -101,8 +110,8 @@ public class ChoicePanel extends JPanel implements ActionListener, OnChoiceListe
                 break;
 
             case "resume":
-                //TO DO
-
+                this.gameControl.reset();
+                break;
         }
     }
 

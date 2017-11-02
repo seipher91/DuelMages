@@ -1,14 +1,12 @@
 package barile.vittorio.engine;
 
+import barile.vittorio.utils.Algebra;
 import lombok.Builder;
 import lombok.Getter;
 
 /**
- *
+ * La Magia e' la materia offensiva/difensiva tra i {@link barile.vittorio.entites.Mage}
  * @author Vittorio
- *
- * Classe per la creazione di magie in base al tipo, nome e potenza.
- *
  */
 @Builder
 public class Spell {
@@ -18,38 +16,35 @@ public class Spell {
 
     @Getter
     private String name;
+
     @Getter
     private String type;
+
     @Getter
     private int power;
 
     /**
-     * Costruttore di una magia
+     * Definisce una Magia che e' l'unita' di interazione tra i {@link barile.vittorio.entites.Mage}
      * @param name nome del mago
-     * @param type tipologia di magia: Fire, Frost, Arcane
-     * @param power potenza ddi danno della magia, un intero compreso tra 10 - 25
+     * @param type tipologia di magia: {@value #FIRE_TYPE}, {@value #FROST_TYPE}, {@value #ARCANE_TYPE}
+     * @param power potenza di danno della magia
      */
     public Spell(String name, String type, int power) {
         this.name = name;
         this.type = type;
-        this.power = randomWithRange(10, 25);
+        this.power = power;
     }
 
     public Spell(String name, String type) {
         this(name, type, 0);
     }
 
-    private static int randomWithRange(int min, int max) {
-        int range = (max - min) + 1;
-        return (int)(Math.random() * range) + min;
-    }
-
     /**
-     * Metodo che permette di ottenere a caso una tipologia di magia
-     * @return valore intero a caso compreso tra 0 e 2
+     * Permette di ottenere a caso una tipologia di magia
+     * @return tipologia di magia: {@value #FIRE_TYPE}, {@value #FROST_TYPE}, {@value #ARCANE_TYPE}
      */
     public static String getRandomType() {
-        int choice = randomWithRange(0, 2);
+        int choice = Algebra.randomWithRange(0, 2);
 
         switch (choice) {
             default:
@@ -63,6 +58,12 @@ public class Spell {
     public static final int SPELL_DRAW = -1;
     public static final int SPELL_WIN = 0;
     public static final int SPELL_LOSE = 1;
+
+    /**
+     * Compara l'esito offensivo tra {@link Spell}
+     * @param spell Magia che si vuole contrastare
+     * @return esito di tipo: {@value #SPELL_DRAW}, {@value #SPELL_WIN}, {@value #SPELL_LOSE}
+     */
 
     public int tryOffense(Spell spell) {
         int result = SPELL_DRAW;

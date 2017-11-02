@@ -4,6 +4,7 @@ import barile.vittorio.engine.Spell;
 import barile.vittorio.interfaces.IntellectualAbilities;
 import barile.vittorio.interfaces.Vitality;
 import barile.vittorio.ui.interfaces.OnVitalityEventListener;
+import barile.vittorio.utils.Algebra;
 import com.sun.istack.internal.Nullable;
 import lombok.Getter;
 import lombok.NonNull;
@@ -12,7 +13,10 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Mage implements Vitality, IntellectualAbilities {
+    public static final int MAX_LIFE = 100;
+
     @Getter
     @Setter
     private String name;
@@ -30,7 +34,7 @@ public class Mage implements Vitality, IntellectualAbilities {
         this.accademic_class = accademic_class;
 
         this.abilities = new ArrayList<>();
-        this.life_points = 100;
+        this.life_points = MAX_LIFE;
         this.listener = listener;
     }
 
@@ -56,7 +60,7 @@ public class Mage implements Vitality, IntellectualAbilities {
         return Spell.builder()
                 .name(spell.getName())
                 .type(spell.getType())
-                .power(spell.getPower())
+                .power(Algebra.randomWithRange(15, 25))
                 .build();
     }
 
@@ -79,6 +83,8 @@ public class Mage implements Vitality, IntellectualAbilities {
     @Override
     public void obtainHeal(int heal) {
         this.life_points += heal;
+        if (this.life_points > MAX_LIFE)
+            this.life_points = MAX_LIFE;
     }
 
 }

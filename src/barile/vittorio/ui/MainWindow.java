@@ -26,7 +26,7 @@ public class MainWindow extends JFrame {
 
     public void init() {
         gameField = new GameField();
-        choicePanel = new ChoicePanel(gameField);
+        choicePanel = new ChoicePanel(gameField, gameField);
 
         gameField.setChoice(choicePanel);
 

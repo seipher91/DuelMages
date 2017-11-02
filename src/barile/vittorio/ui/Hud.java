@@ -85,6 +85,14 @@ public class Hud extends JPanel implements OnVitalityListener {
         restoreLifes();
     }
 
+    public void restore() {
+        restoreLifes();
+        this.status = STATUS_FIGHT;
+
+        spell_1 = null;
+        spell_2 = null;
+    }
+
     private void restoreLifes() {
         this.player_1_life = max_life;
         this.player_2_life = max_life;
