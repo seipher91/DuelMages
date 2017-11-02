@@ -25,7 +25,7 @@ public class Spell {
 
     /**
      * Definisce una Magia che e' l'unita' di interazione tra i {@link barile.vittorio.entites.Mage}
-     * @param name nome del mago
+     * @param name nome della Magia
      * @param type tipologia di magia: {@value #FIRE_TYPE}, {@value #FROST_TYPE}, {@value #ARCANE_TYPE}
      * @param power potenza di danno della magia
      */
@@ -64,10 +64,7 @@ public class Spell {
      * @param spell Magia che si vuole contrastare
      * @return esito di tipo: {@value #SPELL_DRAW}, {@value #SPELL_WIN}, {@value #SPELL_LOSE}
      */
-
     public int tryOffense(Spell spell) {
-        int result = SPELL_DRAW;
-
         if(spell.getType().equals(type)) return SPELL_DRAW;
 
         switch (type) {
@@ -79,7 +76,7 @@ public class Spell {
                 return spell.getType().equals(FROST_TYPE) ? SPELL_WIN : SPELL_LOSE;
         }
 
-        return result;
+        return SPELL_DRAW;
     }
 
 }

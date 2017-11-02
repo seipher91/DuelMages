@@ -15,7 +15,11 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 /**
- * Created by Vittorio on 08/10/2017.
+ * Definisce la rappresentazione a schermo di un Mago
+ * Incapsula al suo interno la definizione e il comporamento puro di un Mago tramite la delega
+ * MagePlayer -> Albume
+ * Mage -> Tuorlo
+ * @author Vittorio
  */
 public class MagePlayer extends JPanel {
     public static final int STATUS_IDLE = 0;
@@ -37,11 +41,18 @@ public class MagePlayer extends JPanel {
     private int status;
     private int current_moment;
 
+    //lista di coreografie da eseguire in maniera sequenziale
     private ArrayList<Integer> statuses;
 
+    /**
+     * Definisce la trasposizione a schermo di un Mago
+     * @param name Nome del Mago
+     * @param accademic_class Classe Accademica del Mago
+     * @param resource_path Risorsa per gli Sprite
+     * @param listener Delega per gli eventi vitali di un mago, quali la morte
+     */
     public MagePlayer(String name, String accademic_class, String resource_path, OnVitalityEventListener listener) {
         super();
-        //setBackground(Color.white);
         setOpaque(false);
         setSize(400, 400);
 
@@ -56,20 +67,39 @@ public class MagePlayer extends JPanel {
         this.statuses = new ArrayList<>();
     }
 
+    /**
+     * Impone il Mago come avversario
+     */
     public void setAsEnemy() {
         this.is_enemy = true;
     }
 
+    /**
+     * Ripristina il mago nella coreografia iniziale
+     */
     public void restore() {
         this.statuses.clear();
         this.status = STATUS_IDLE;
     }
 
+    /**
+     * Aggiunge una coreografia da eseguire
+     * @param status Coreografia di tipo:
+     *  {@value #STATUS_IDLE} Coreografia di quiete
+     *  {@value #STATUS_ATTACK} Coreografia di attacco
+     *  {@value #STATUS_CHARGE} Coreografia di casting di una magia
+     *  {@value #STATUS_DAMAGED} Coreografia di danno subito
+     *  {@value #STATUS_WIN} Coreografia di vittoria
+     *  {@value #STATUS_LOSE} Coreografia di sconfitta
+     */
     public void addStatus(int status) {
         this.statuses.add(status);
         if(this.status == STATUS_IDLE) goNextStatus();
     }
 
+    /**
+     * Esegue la coreografia successiva
+     */
     private void goNextStatus() {
         int next_status = STATUS_IDLE;
 
@@ -79,15 +109,32 @@ public class MagePlayer extends JPanel {
         setStatus(next_status);
     }
 
+    /**
+     * Impone la coreografia corrente
+     * @param status Coreografia di tipo:
+     *  {@value #STATUS_IDLE} Coreografia di quiete
+     *  {@value #STATUS_ATTACK} Coreografia di attacco
+     *  {@value #STATUS_CHARGE} Coreografia di casting di una magia
+     *  {@value #STATUS_DAMAGED} Coreografia di danno subito
+     *  {@value #STATUS_WIN} Coreografia di vittoria
+     *  {@value #STATUS_LOSE} Coreografia di sconfitta
+     */
     private void setStatus(int status) {
         this.status = status;
         current_moment = 0;
     }
 
+    /**
+     * Prosegue l'itinere della coreografia
+     */
     private void updateStatus() {
         current_moment++;
     }
 
+    /**
+     * Definisce l'immagine corrente determinata dalla coreografia in atto
+     * @return Immagine del Mago
+     */
     private BufferedImage getBody() {
         int x = 0,
             y = 0,
@@ -222,6 +269,10 @@ public class MagePlayer extends JPanel {
         return this.img.getSubimage(x, y, w, h);
     }
 
+    /**
+     * Definisce le coordinate per estrapolare l'animazione corrente
+     * @return Gruppo di punti cartesiani per l'estrapolazione dell'animazione corrente
+     */
     @NonNull
     private Point getBodyLocation() {
         Point location = null;
@@ -299,6 +350,10 @@ public class MagePlayer extends JPanel {
         return location;
     }
 
+    /**
+     * Rappresenta concretamente un Mago a schermo
+     * @param g Componente di rappresentazione degli artefatti video
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

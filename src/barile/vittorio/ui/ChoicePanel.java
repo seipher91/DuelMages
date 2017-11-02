@@ -13,6 +13,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 
+/**
+ * Plancia di comandi
+ * @author Vittorio
+ */
 public class ChoicePanel extends JPanel implements ActionListener, OnChoiceListener {
     private Background background;
     private OnSpellListener listener;
@@ -20,6 +24,11 @@ public class ChoicePanel extends JPanel implements ActionListener, OnChoiceListe
 
     private boolean active;
 
+    /**
+     * Definisce la plancia di comando
+     * @param listener Delega per il casting di una Magia
+     * @param gameControl Delega per il controllo delle routine Globali del gioco
+     */
     public ChoicePanel(OnSpellListener listener, OnGameControlChange gameControl) {
         setSize(MainWindow.LARGHEZZA, 380);
         setLocation(0, 400);
@@ -34,6 +43,9 @@ public class ChoicePanel extends JPanel implements ActionListener, OnChoiceListe
         init();
     }
 
+    /**
+     * Inizializzazione
+     */
     private void init() {
         //setBackground(new Color(96,71,35));
         background = new Background(getWidth(), 500);
@@ -75,6 +87,10 @@ public class ChoicePanel extends JPanel implements ActionListener, OnChoiceListe
         add(background);
     }
 
+    /**
+     * Metodo delegato per la cattura degli eventi di interazione con i comandi della plancia
+     * @param actionEvent Evento scaturito dall'interazione
+     */
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         String action = actionEvent.getActionCommand();
@@ -115,11 +131,17 @@ public class ChoicePanel extends JPanel implements ActionListener, OnChoiceListe
         }
     }
 
+    /**
+     * Abilita l'interazione con la plancia
+     */
     @Override
     public void grantChioce() {
         active = true;
     }
 
+    /**
+     * Blocca l'interazione con la plancia
+     */
     @Override
     public void denyChioce() {
         active = false;

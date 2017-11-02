@@ -10,7 +10,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
- * Created by Vittorio on 08/10/2017.
+ * Definisce la rappresentazione degli indicatori di progressione di gioco
+ * @author Vittorio
  */
 public class Hud extends JPanel implements OnVitalityListener {
     public static final int PLAYER_1 = 0;
@@ -85,6 +86,9 @@ public class Hud extends JPanel implements OnVitalityListener {
         restoreLifes();
     }
 
+    /**
+     * Ripristina lo schema di gioco allo stato iniziale
+     */
     public void restore() {
         restoreLifes();
         this.status = STATUS_FIGHT;
@@ -93,11 +97,20 @@ public class Hud extends JPanel implements OnVitalityListener {
         spell_2 = null;
     }
 
+    /**
+     * Ripristina le barre della vitalita' di entrambi i Maghi
+     */
     private void restoreLifes() {
         this.player_1_life = max_life;
         this.player_2_life = max_life;
     }
 
+    /**
+     * Definisce l'indicazione dell'esito della battaglia
+     * @param status Esito
+     * @param spell_1 Magia offensiva
+     * @param spell_2 Magia Difensiva
+     */
     public void setStatus(int status, String spell_1, String spell_2) {
         switch (this.status) {
             case STATUS_GAME_OVER:
@@ -134,6 +147,11 @@ public class Hud extends JPanel implements OnVitalityListener {
         }
     }
 
+    /**
+     * Definisce l'ammontare di danni da assegnare al Mago specificato
+     * @param player Giocatore corrente o Avversario
+     * @param damage Unita' di punti vita da detrarre
+     */
     @Override
     public void addDamage(int player, int damage) {
         switch (player) {
@@ -148,6 +166,11 @@ public class Hud extends JPanel implements OnVitalityListener {
         }
     }
 
+    /**
+     * Definisce l'ammontare di cure da assegnare al Mago specificato
+     * @param player Giocatore corrente o Avversario
+     * @param heal Unita' di punti vita da aumentare
+     */
     @Override
     public void addHeal(int player, int heal) {
         switch (player) {
@@ -162,6 +185,10 @@ public class Hud extends JPanel implements OnVitalityListener {
         }
     }
 
+    /**
+     * Rappresenta concretamente la barra degli indicatori di gioco
+     * @param g Componente di rappresentazione degli artefatti video
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

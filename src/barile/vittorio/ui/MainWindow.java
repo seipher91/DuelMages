@@ -3,6 +3,9 @@ package barile.vittorio.ui;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Scermata principale di gioco
+ */
 public class MainWindow extends JFrame {
     public static final String NOME_GIOCO = "Duello tra maghi";
     public static final int LARGHEZZA = 800;
@@ -24,6 +27,9 @@ public class MainWindow extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    /**
+     * Inizializzazione
+     */
     public void init() {
         gameField = new GameField();
         choicePanel = new ChoicePanel(gameField, gameField);

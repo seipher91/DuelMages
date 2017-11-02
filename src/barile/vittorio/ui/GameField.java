@@ -19,6 +19,10 @@ import static barile.vittorio.engine.Spell.*;
 import static barile.vittorio.ui.Hud.PLAYER_1;
 import static barile.vittorio.ui.Hud.PLAYER_2;
 
+/**
+ * Campo di gioco
+ * @author Vittorio
+ */
 public class GameField extends JPanel implements OnSpellListener, OnVitalityEventListener, OnGameControlChange {
     private MagePlayer mage_1, mage_2;
     private Hud hud;
@@ -37,6 +41,9 @@ public class GameField extends JPanel implements OnSpellListener, OnVitalityEven
         start();
     }
 
+    /**
+     * Inizializza le entita' del campo di gioco
+     */
     private void init() {
         mage_1 = new MagePlayer("Paladino",
                 "Alleanza",
@@ -68,6 +75,9 @@ public class GameField extends JPanel implements OnSpellListener, OnVitalityEven
         theme = Sound.getClip("assets/sounds/battle_theme.wav");
     }
 
+    /**
+     * Da' inizio alle routine di gioco
+     */
     private void start() {
         Thread engine = new Thread(new Engine());
         engine.start();
@@ -79,6 +89,9 @@ public class GameField extends JPanel implements OnSpellListener, OnVitalityEven
         theme.start();
     }
 
+    /**
+     * Definisce il riavvio della routine di gioco
+     */
     @Override
     public void reset() {
         mage_1.obtainHeal(Mage.MAX_LIFE);
@@ -99,6 +112,9 @@ public class GameField extends JPanel implements OnSpellListener, OnVitalityEven
 
     }
 
+    /**
+     * Permette di rovesciare la rappresentazione di una componente visiva
+     */
     private static Graphics horizontalFlip(final Graphics g, final int width) {
         final Graphics2D g2d = (Graphics2D) g;
         final AffineTransform tx = g2d.getTransform();
@@ -108,6 +124,9 @@ public class GameField extends JPanel implements OnSpellListener, OnVitalityEven
         return g2d;
     }
 
+    /**
+     * Aggiorna visivamente il campo di gioco
+     */
     private synchronized void updateEnvironment() {
         //mage_1.repaint();
         //mage_2.repaint();
@@ -115,6 +134,10 @@ public class GameField extends JPanel implements OnSpellListener, OnVitalityEven
         repaint();
     }
 
+    /**
+     * Cattura gli eventi di magie offensive castate
+     * @param spell Magia Lanciata
+     */
     @Override
     public void onSpellCast(Spell spell) {
         mage_1.addStatus(MagePlayer.STATUS_ATTACK);
@@ -161,6 +184,10 @@ public class GameField extends JPanel implements OnSpellListener, OnVitalityEven
         }
     }
 
+    /**
+     * Cattura l'evento di morte di un Mago
+     * @param name Nome del mago morto in battaglia
+     */
     @Override
     public void onDeath(String name) {
         choice.denyChioce();
@@ -183,6 +210,9 @@ public class GameField extends JPanel implements OnSpellListener, OnVitalityEven
         if(end != null) end.start();
     }
 
+    /**
+     * Routine di gioco scansionato ogni 220 millisecondi
+     */
     public class Engine implements Runnable {
         public void run() {
             while (true) {
