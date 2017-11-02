@@ -1,7 +1,8 @@
 package barile.vittorio.ui.interfaces;
 
 /**
- * Created by Vittorio on 08/10/2017.
+ * Definisce l'abilita' di subire mutazioni della vitalita'
+ * @author Vittorio
  */
 public interface OnVitalityListener {
     public void addDamage(int player, int damage);
