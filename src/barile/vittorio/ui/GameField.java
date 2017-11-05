@@ -105,6 +105,8 @@ public class GameField extends JPanel implements OnSpellListener, OnVitalityEven
 
         if(end != null) end.stop();
         if(!theme.isRunning()) theme.start();
+        Sound.setVolume(theme, 40f);
+        theme.loop(Clip.LOOP_CONTINUOUSLY);
     }
 
     @Override
