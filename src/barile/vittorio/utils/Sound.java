@@ -65,7 +65,8 @@ public class Sound {
             return;
         }
 
-        volume = (control.getMaximum()/100) * volume;
+        float range = control.getMaximum() + control.getMinimum();
+        volume = (range/100) * volume;
         control.setValue(volume);
     }
 
